@@ -1,0 +1,168 @@
+Show databases;
+Create database hw_inventory
+Use hw_inventory
+Source 
+
+select * from log;
+show tables;
+show columns from log;
+
+
+Structure,
+
+	HW check inventory system  <- PHP with MySQL Essential Training: 1 The Basics
+		Form  
+			
+			BOARD-> index?, id , hw_id(PK), project, owner, current_action,last_action , create_at, update_at,
+				history
+			History(fill from LOG by ID)-> index?, id, board id(FK), action, timestamp, 
+			LOG() -> index, id, board id(FK), owner, action, user , timestamp
+			
+		List all, List by project,  list by owner
+		
+//boards
+	create table boards(
+		id INT(11) NOT NULL AUTO_INCREMENT,
+		sn VARCHAR(255),
+		owner VARCHAR(255),
+		project VARCHAR(255),
+		dep  VARCHAR(255),
+		current_action VARCHAR(255),
+		last_action VARCHAR(255),
+		update_at VARCHAR(255),
+		timestamp TIMESTAMP not null  default CURRENT_TIMESTAMP ,
+		PRIMARY KEY(id)
+	);
+	INSERT INTO boards(sn, owner, project, dep, current_action, last_action, update_at) VALUES ('test1', 'tester', 'XMM7660','MFT','initial check in','NULL','2017-11-2 11:47:29');
+	INSERT INTO boards(sn, owner, project, dep, current_action, last_action, update_at) VALUES ('test2', 'tester', 'XMM7660','MFT','initial check in','NULL','2017-11-2 11:48:29');
+	INSERT INTO boards(sn, owner, project, dep, current_action, last_action, update_at) VALUES ('test3', 'tester', 'XMM7660','MFT','initial check in','NULL','2017-11-2 11:49:29');
+	
+	ALTER TABLE boards ADD column dep VARCHAR(255) after;
+	ALTER TABLE boards drop column dep;
+	drop column
+	ALTER TABLE:??,??,?????,????????
+	???:desc ??;
+	????:alter table t_book rename to bbb;
+	???:alter table ?? add column ?? varchar(30);
+	???:alter table ?? drop column ??;
+	????MySQL: alter table bbb change nnnnn hh int;
+		ALTER TABLE boards ADD column type VARCHAR(255) AFTER project;
+		ALTER TABLE log ADD column type VARCHAR(255) AFTER project;
+		
+	
+//log
+	create table boards_log(
+		id INT(11) NOT NULL AUTO_INCREMENT,
+		board_id INT(11),
+		sn VARCHAR(255),
+		owner VARCHAR(255),
+		project VARCHAR(255),
+		action VARCHAR(255),
+		user VARCHAR(255),
+		timestamp TIMESTAMP,
+		PRIMARY KEY(id)
+	);
+	ALTER TABLE boards_log ADD INDEX fk_board_id (board_id);
+	
+	INSERT INTO log(board_id, sn,owner, project, action, user) VALUES (1,'test1','tester','XMM7660','check out to Yu','tester');
+	INSERT INTO log(board_id, sn,owner,  project, action, user) VALUES (2,'test2','tester','XMM7660','check out to Yu','tester');
+	INSERT INTO log(board_id, sn,owner,  project, action, user) VALUES (3,'test3','tester','XMM7660','check out to Yu','tester');
+	INSERT INTO log(board_id, sn,owner,  project, action, user) VALUES (1,'test1','tester','XMM7660','return back','tester');
+	INSERT INTO log(board_id, sn,owner,  project, action, user) VALUES (2,'test2','tester','XMM7660','return back Yu','tester');
+	INSERT INTO log(board_id, sn,owner,  project, action, user) VALUES (3,'test3','tester','XMM7660','return back','tester')
+	INSERT INTO log(board_id, sn,owner, project, action, user, timestamp) VALUES (1,'test1','tester','XMM7660','check out to Yu','tester','2017-11-6 17:25:15');
+	
+	alter table log rename boardlog;
+	alter table boards_log rename log;
+	alter table board_log rename boardslog;
+	alter table boardslog rename logboards;
+	alter table logboards rename aaa;
+	alter table aaa rename log;
+	
+	ALTER TABLE log ADD dep VARCHAR(255)  AFTER user;
+	UPDATE log SET dep='MFT' where id=2;
+	UPDATE log  SET dep='MFT' where dep is NULL;
+	
+	
+	
+	
+//department
+	create table department(
+		id INT(11) NOT NULL AUTO_INCREMENT,
+		dep VARCHAR(255),
+		PRIMARY KEY(id)
+	);
+	INSERT INTO department(dep ) VALUES ('MFT');
+	INSERT INTO department(dep ) VALUES ('CT');
+	INSERT INTO department(dep ) VALUES ('IOT');
+	INSERT INTO department(dep ) VALUES ('SIT');
+	INSERT INTO department(dep ) VALUES ('FT');
+	INSERT INTO department(dep ) VALUES ('KPI');
+	INSERT INTO department(dep ) VALUES ('Stability');
+	
+	
+	ALTER TABLE admins ADD dep VARCHAR(255)  AFTER username;
+	ALTER TABLE admins ADD role VARCHAR(255)  AFTER dep ;
+	
+	
+	
+//admins
+	
+	$_SESSION['role'] == 'admin'
+	
+	 id | first_name | last_name | email              | username     | dep  | role | hashed_password
+	INSERT INTO admins(first_name, last_name,email, username, dep, role,hashed_password) VALUES ('Super','Intel','yu.z.zhou@intel.com','intelsuper','INTEL','super','1234');
+	
+	UPDATE admins SET role='super' where id=5;
+	UPDATE admins SET role='super' where username='zhouyu';
+	
+	
+//user_log
+
+create table users_log(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	account VARCHAR(255),
+	action VARCHAR(255),
+	manipulator VARCHAR(255),
+	timestamp TIMESTAMP,
+	PRIMARY KEY(id)
+	);
+
+ALTER TABLE users_log ADD dep VARCHAR(255)  AFTER account ;
+UPDATE users_log SET dep='MFT' where id=2;
+UPDATE users_log SET dep='MFT' where dep is NULL;
+
+
+ALTER TABLE table_name
+ADD column_name datatype
+
+ALTER TABLE table_name
+ADD column_name datatype
+
+ALTER TABLE table_name 
+DROP COLUMN column_name
+
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype
+From <http://www.w3school.com.cn/sql/sql_alter.asp> 
+
+
+mysqldump.exe -u root -p board_inventory>board_inventory.sql
+mysqldump.exe -u root -p board_inventory admins>table_admins.sql
+mysqldump.exe -u root -p board_inventory boards>table_board.sql
+
+
+?????,????? 
+mysqldump -u??? -p ?? -d????  ??> ?????? 
+
+From <https://www.cnblogs.com/zcw-ios/articles/3319480.html> 
+
+
+
+create database board_inventory;
+use board_inventory;
+source /board_inventory.sql;
+source c:/board_inventory.sql;
+
+
+TRUNCATE TABLE table1;
